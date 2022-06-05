@@ -37,3 +37,20 @@ export const loginUser = createAsyncThunk<
     return thunkAPI.rejectWithValue(buildError(err, "SignupSignIn failed"));
   }
 });
+
+export const fetchUser = createAsyncThunk<
+  User,
+  undefined,
+  {
+    extra: {
+      jwt: string;
+    };
+  }
+>("users/profile", async (payload, thunkAPI) => {
+  try {
+    const response = await service.me(thunkAPI.extra.jwt)();
+    return response as User;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(buildError(err, "Unable to fetch user profile"));
+  }
+});

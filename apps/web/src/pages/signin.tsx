@@ -13,8 +13,8 @@ import { AppState, SignInInput } from "../models/user.model";
 
 
 const defaultValues: SignInInput = {
-  email: "",
-  password: "",
+  email: "lakki@gmail.com",
+  password: "12345678",
 };
 const SignIn:FC<{appState?: AppState}> = ({appState}) => {
   const dispatch = useDispatch();

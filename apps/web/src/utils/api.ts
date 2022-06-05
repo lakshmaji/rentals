@@ -33,7 +33,10 @@ const api = async <RT, T extends object>(
   };
 
   if (body) {
-    options.body = JSON.stringify(body);
+    const keys = Object.keys(body);
+    if(keys.length>0) {
+      options.body = JSON.stringify(body);
+    }
   }
 
   const response = await fetch(requestUrl, options);

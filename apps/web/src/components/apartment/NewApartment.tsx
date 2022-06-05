@@ -15,25 +15,21 @@ import { ApartmentInput } from "../../models/apartment.model";
 import { useAuth } from "../../auth/AuthProvider";
 
 const defaultValues: ApartmentInput = {
-  name: "",
-  description: "",
-  size: 0,
-  rooms: "",
-  address: "",
-  monthlyRent: 0,
-  securityDeposit: 0,
-  lat: 0,
-  lng: 0,
+  name: "Rolling Hills",
+  description:
+    "The enableCors() method takes an optional configuration object argument. The available properties of this object are described in the official CORS documentation. Another way is to pass a callback function that lets you define the configuration object asynchronously based on the request (on the fly).",
+  size: 1200,
+  rooms: "2BHK",
+  address: "IIIT, 5th floor, T Hub, Gachibowli, Telangana 500032",
+  monthlyRent: 12000,
+  securityDeposit: 2000,
+  lat: 13.6276524,
+  lng: 79.4248008,
 };
-
 
 const NewApartment = () => {
   const { isAuthenticated } = useAuth();
-  const {
-    control,
-    handleSubmit,
-    reset,
-  } = useForm<ApartmentInput>({
+  const { control, handleSubmit, reset } = useForm<ApartmentInput>({
     defaultValues,
   });
 
@@ -42,11 +38,10 @@ const NewApartment = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const onSubmit: SubmitHandler<ApartmentInput> = (data) => {    
+  const onSubmit: SubmitHandler<ApartmentInput> = (data) => {
     dispatch(createApartment(data))
       .unwrap()
       .then((response) => {
-        console.log("bello response", response);
         clearForm();
         handleClose();
       });

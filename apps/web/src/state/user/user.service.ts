@@ -1,5 +1,5 @@
 import { SignupInput,SignInInput, User, Token, ApiRes } from "../../models/user.model";
-import api from "../../utils/api";
+import api, { addToken } from "../../utils/api";
 
 
 const register = (payload: SignupInput): Promise<User & ApiRes> => {
@@ -18,9 +18,18 @@ const login = (payload: SignInInput): Promise<Token & ApiRes> => {
   );
 };
 
+const me = (token: string) => (): Promise<User> => {
+  return api<any, any>(
+    "GET",
+    "/user",
+    addToken(token)
+  );
+};
+
 const service = {
   register,
-  login
+  login,
+  me
 };
 
 export default service;

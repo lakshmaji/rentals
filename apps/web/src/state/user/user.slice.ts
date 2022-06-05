@@ -56,7 +56,6 @@ const userSlice = createSlice({
         state.isFetching = false;
         state.isSuccess = true;
         state.token = payload.token;
-        state.name = payload.name;
       })
       .addCase(loginUser.pending, (state) => {
         state.isFetching = true;
