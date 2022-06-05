@@ -1,5 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthHelper } from './auth.helper';
+import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto.ts';
 import { UserEntity } from './entities/user.entity';
 import { UserService } from './user.service';
@@ -26,5 +32,29 @@ export class AuthService {
     user.password = this.helper.encodePassword(password);
 
     return this.userService.create(user);
+  }
+
+  public async login(body: LoginDto): Promise<{ token: string }> {
+    const { email, password }: LoginDto = body;
+    const user: UserEntity = await this.userService.findByEmail(email);
+
+    if (!user) {
+      throw new HttpException('No user found', HttpStatus.NOT_FOUND);
+    }
+
+    const isPasswordValid: boolean = this.helper.isPasswordValid(
+      password,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      throw new HttpException('No user found', HttpStatus.NOT_FOUND);
+    }
+
+    this.userService.update(user.id, { lastLoginAt: new Date() });
+
+    const token = await this.helper.generateToken(user);
+
+    return { token };
   }
 }

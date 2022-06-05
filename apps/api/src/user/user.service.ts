@@ -21,4 +21,8 @@ export class UserService {
   public async findByEmail(email: string): Promise<UserEntity> {
     return await this.repository.findOne({ where: { email } });
   }
+
+  public async update(id: number, user: Partial<UserEntity>): Promise<void> {
+    await this.repository.update(id, user);
+  }
 }
