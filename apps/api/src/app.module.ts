@@ -6,6 +6,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import appConfig from './config/app.config';
 import databaseConfig, { DatabaseConfig } from './config/database.config';
+import authConfig from './config/auth.config';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import databaseConfig, { DatabaseConfig } from './config/database.config';
         DATABASE_USERNAME: Joi.string().required(),
         DATABASE_PASSWORD: Joi.string().required(),
         DATABASE: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
+        JWT_EXPIRES_IN: Joi.string().alphanum().required(),
       }),
       validationOptions: {
         allowUnknown: true,
@@ -24,7 +28,7 @@ import databaseConfig, { DatabaseConfig } from './config/database.config';
       },
       isGlobal: true,
       envFilePath: '.env',
-      load: [appConfig, databaseConfig],
+      load: [appConfig, databaseConfig, authConfig],
       cache: true,
     }),
     TypeOrmModule.forRootAsync({
@@ -32,7 +36,7 @@ import databaseConfig, { DatabaseConfig } from './config/database.config';
       useFactory: (config: ConfigService) => {
         const dbConfig = config.get<DatabaseConfig>('db');
         return {
-          entities: [],
+          entities: ['dist/**/*.entity{.ts,.js}'],
           synchronize: true,
           autoLoadEntities: true,
           host: dbConfig.host,
@@ -45,6 +49,7 @@ import databaseConfig, { DatabaseConfig } from './config/database.config';
       },
       inject: [ConfigService],
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
