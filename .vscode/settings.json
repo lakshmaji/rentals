@@ -1,5 +1,11 @@
 {
     "cSpell.words": [
         "typeorm"
-    ]
+    ],
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "**/documentation": true
+    }
 }
