@@ -11,6 +11,7 @@ import { UserModule } from './user/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './user/jwt-auth.guard';
 import { ApartmentModule } from './apartment/apartment.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { ApartmentModule } from './apartment/apartment.module';
     }),
     UserModule,
     ApartmentModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [

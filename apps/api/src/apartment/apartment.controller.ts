@@ -22,6 +22,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Public } from 'src/public.decorator';
 import UserContext from 'src/user/models/user.context';
 import { ApartmentService } from './apartment.service';
 import { CreateApartmentDto } from './dto/create-apartment.dto';
@@ -57,6 +58,7 @@ export class ApartmentController {
     return this.apartmentService.create(createApartmentDto, req.user);
   }
 
+  @Public()
   @ApiTags('apartment')
   @UseInterceptors(ClassSerializerInterceptor)
   @ApiResponse({
