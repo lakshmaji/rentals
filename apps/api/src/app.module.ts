@@ -10,6 +10,7 @@ import authConfig from './config/auth.config';
 import { UserModule } from './user/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './user/jwt-auth.guard';
+import { ApartmentModule } from './apartment/apartment.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { JwtAuthGuard } from './user/jwt-auth.guard';
       inject: [ConfigService],
     }),
     UserModule,
+    ApartmentModule,
   ],
   controllers: [AppController],
   providers: [

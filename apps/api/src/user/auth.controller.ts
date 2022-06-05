@@ -23,7 +23,7 @@ export class AuthController {
   private register(@Body() body: RegisterDto): Promise<UserEntity> {
     return this.authService.register(body);
   }
-  
+
   @Public()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('login')
