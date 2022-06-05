@@ -9,7 +9,7 @@ export interface UserState {
   isSuccess: boolean;
   isError: boolean;
   errorMessage?: string;
-  token?: string
+  token: string
 }
 
 const initialState: UserState = {

@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
 import useDispatch from "../../hooks/useDispatch";
 import useSelector from "../../hooks/useSelector";
+import { Apartment } from "../../models/apartment.model";
 import { retrieveApartments } from "../../state/apartment/apartments.thunk";
 import ApartmentCard from "./ApartmentCard";
-
+import NewApartment from "./NewApartment";
 
 const Apartments = () => {
   const dispatch = useDispatch();
@@ -36,8 +37,8 @@ const Apartments = () => {
     content = (
       <>
         <Container className="d-flex flex-wrap justify-content-center">
-          {apartments.map((apartment) => {
-            return <ApartmentCard apartment={apartment} key={apartment.id} />;
+          {apartments.map((apartment: Apartment) => {
+            return <ApartmentCard key={apartment.id} apartment={apartment} />;
           })}
         </Container>
       </>
@@ -45,6 +46,7 @@ const Apartments = () => {
   }
   return (
     <div>
+      <NewApartment />
       {content}
     </div>
   );

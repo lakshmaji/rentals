@@ -4,22 +4,23 @@ export interface SymbolMap {
   [key: symbol]: Symbol;
 }
 
-export const addToken = () => ({ [Symbol.for("includeAuth")]: Symbol() });
+export const addToken = (token: string) => ({
+  [Symbol.for("includeAuth")]: token,
+});
 
-const api = async <T>(
+const api = async <RT, T extends object>(
   method: "POST" | "GET",
   url: string,
   body?: T | SymbolMap,
   queryParams: { [key: string]: string } = {}
-) => {
+): Promise<RT> => {
   const queryString = new URLSearchParams(queryParams);
   let requestUrl = HOST;
   requestUrl += Object.keys(queryParams).length ? `${url}?${queryString}` : url;
-  let accessToken;
 
-  if (body && (body as SymbolMap).hasOwnProperty(Symbol.for("includeAuth"))) {
-    // fetch and append token
-    accessToken = "";
+  let accessToken;
+  if (body && body.hasOwnProperty(Symbol.for("includeAuth"))) {
+    accessToken = (body as SymbolMap)[Symbol.for("includeAuth")];
   }
 
   const options: RequestInit = {

@@ -19,7 +19,7 @@ const ApartmentCard: FC<{ apartment: Apartment }> = ({ apartment }) => {
             </Card.Link>
           </Col>
           <Col>
-            <Card.Text>By {apartment.owner.name} </Card.Text>
+            <Card.Text>By {apartment.owner?.name} </Card.Text>
           </Col>
         </Row>
       </Card.Body>

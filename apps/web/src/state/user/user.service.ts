@@ -3,7 +3,7 @@ import api from "../../utils/api";
 
 
 const register = (payload: SignupInput): Promise<User & ApiRes> => {
-  return api<SignupInput>(
+  return api<any, SignupInput>(
     "POST",
     "/register",
     payload
@@ -11,7 +11,7 @@ const register = (payload: SignupInput): Promise<User & ApiRes> => {
 };
 
 const login = (payload: SignInInput): Promise<Token & ApiRes> => {
-  return api<SignInInput>(
+  return api<any, SignInInput>(
     "POST",
     "/login",
     payload
