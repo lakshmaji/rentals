@@ -25,6 +25,9 @@ import { HealthModule } from './health/health.module';
         DATABASE: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRES_IN: Joi.string().alphanum().required(),
+        CLIENT_ORIGINS: Joi.string().required().uri({
+          allowRelative: false,
+        }),
       }),
       validationOptions: {
         allowUnknown: true,
