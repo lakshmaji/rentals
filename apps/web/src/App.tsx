@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
+import { Toaster } from "react-hot-toast";
+
 import { store } from "./state/store";
 import logo from "./logo.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,6 +13,7 @@ function App() {
     <BrowserRouter>
       <Provider store={store}>
         <div className="App">
+          <Toaster />
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>
