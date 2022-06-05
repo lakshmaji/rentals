@@ -4,7 +4,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard, IAuthGuard } from '@nestjs/passport';
-import { UserEntity } from './entities/user.entity';
 import UserContext from './models/user.context';
 
 @Injectable()
