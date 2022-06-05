@@ -4,6 +4,7 @@ import {
   HealthCheckService,
   HttpHealthIndicator,
   HealthCheck,
+  TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
 import { Public } from 'src/public.decorator';
 
@@ -13,14 +14,22 @@ export class HealthController {
   constructor(
     private readonly health: HealthCheckService,
     private readonly http: HttpHealthIndicator,
+    private readonly db: TypeOrmHealthIndicator,
   ) {}
 
   @Public()
-  @Get()
+  @Get('api')
   @HealthCheck()
-  check() {
+  api() {
     return this.health.check([
       () => this.http.pingCheck('Rentals API', 'http://localhost:6002'),
     ]);
+  }
+
+  @Public()
+  @Get('database')
+  @HealthCheck()
+  database() {
+    return this.health.check([() => this.db.pingCheck('database')]);
   }
 }
