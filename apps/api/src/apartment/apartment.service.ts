@@ -16,10 +16,8 @@ export class ApartmentService {
   ) {}
 
   async create(createApartmentDto: CreateApartmentDto, user: UserEntity) {
-    const apartment = await this.apartmentRepository.create({
-      ...createApartmentDto,
-      owner: user,
-    });
+    const apartment = await this.apartmentRepository.create(createApartmentDto);
+    apartment.owner = user;
     await this.apartmentRepository.save(apartment);
     return apartment;
   }

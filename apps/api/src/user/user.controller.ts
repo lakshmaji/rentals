@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Logger,
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
@@ -14,12 +13,10 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-  private lo = new Logger('bello :: user controller');
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   findOne(@GetUser() user: UserEntity) {
-    this.lo.log(user);
     return this.userService.findOne(user.id);
   }
 }

@@ -10,9 +10,13 @@ export class ApartmentUser {
   @Column({ default: false })
   public accepted!: boolean;
 
-  @ManyToOne(() => Apartment, (apartment) => apartment.interestedUsers)
+  @ManyToOne(() => Apartment, (apartment) => apartment.interestedUsers, {
+    cascade: true,
+  })
   public apartment!: Apartment;
 
-  @ManyToOne(() => UserEntity, (user) => user.interestedApartments)
+  @ManyToOne(() => UserEntity, (user) => user.interestedApartments, {
+    cascade: true,
+  })
   public user!: UserEntity;
 }
