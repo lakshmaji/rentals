@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, UseGuards, Req, Logger } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/user.decorator';
 import { UserEntity } from './entities/user.entity';
@@ -9,10 +9,11 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+  private lo = new Logger('bello :: user controller');
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   findOne(@GetUser() user: UserEntity) {
+    this.lo.log(user);
     return this.userService.findOne(user.id);
   }
 }
