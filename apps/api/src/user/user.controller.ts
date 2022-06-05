@@ -1,8 +1,8 @@
 import { Controller, Get, UseGuards, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { GetUser } from 'src/user.decorator';
+import { UserEntity } from './entities/user.entity';
 import { JwtAuthGuard } from './jwt-auth.guard';
-import UserContext from './models/user.context';
-
 import { UserService } from './user.service';
 
 @ApiTags('user')
@@ -12,7 +12,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findOne(@Req() req: UserContext) {
-    return this.userService.findOne(req.user.id);
+  findOne(@GetUser() user: UserEntity) {
+    return this.userService.findOne(user.id);
   }
 }

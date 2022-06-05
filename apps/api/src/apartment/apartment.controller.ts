@@ -4,9 +4,6 @@ import {
   Post,
   Body,
   Param,
-  UseGuards,
-  Logger,
-  Req,
   Put,
   BadRequestException,
   ClassSerializerInterceptor,
@@ -23,7 +20,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Public } from 'src/public.decorator';
-import UserContext from 'src/user/models/user.context';
+import { GetUser } from 'src/user.decorator';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { ApartmentService } from './apartment.service';
 import { CreateApartmentDto } from './dto/create-apartment.dto';
 
@@ -53,9 +51,9 @@ export class ApartmentController {
   @Post()
   create(
     @Body() createApartmentDto: CreateApartmentDto,
-    @Req() req: UserContext,
+    @GetUser() user: UserEntity,
   ) {
-    return this.apartmentService.create(createApartmentDto, req.user);
+    return this.apartmentService.create(createApartmentDto, user);
   }
 
   @Public()
@@ -83,8 +81,8 @@ export class ApartmentController {
   @ApiBearerAuth()
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('private')
-  myApartments(@Req() req: UserContext) {
-    return this.apartmentService.findAll(+req.user.id);
+  myApartments(@GetUser() user: UserEntity) {
+    return this.apartmentService.findAll(user.id);
   }
 
   @ApiTags('apartment')
@@ -98,8 +96,8 @@ export class ApartmentController {
   @UseInterceptors(ClassSerializerInterceptor)
   @ApiBearerAuth()
   @Put(':id/interest')
-  async sendInterest(@Param('id') id: string, @Req() req: UserContext) {
-    const userId = Number(req.user.id);
+  async sendInterest(@Param('id') id: string, @GetUser() user: UserEntity) {
+    const userId = Number(user.id);
     const apartmentId = +id;
     const apartment =
       await this.apartmentService.findApartmentWithInterestedUsers(apartmentId);
@@ -113,10 +111,7 @@ export class ApartmentController {
       );
     }
 
-    return this.apartmentService.createInterestForApartment(
-      apartment,
-      req.user,
-    );
+    return this.apartmentService.createInterestForApartment(apartment, user);
   }
 
   @ApiTags('apartment user')
@@ -134,12 +129,12 @@ export class ApartmentController {
   async matchInterest(
     @Param('id') id: string,
     @Param('userId') userId: number,
-    @Req() req: UserContext,
+    @GetUser() user: UserEntity,
   ) {
     const apartmentId = +id;
 
     const apartment = await this.apartmentService.findOne(apartmentId);
-    if (apartment.owner.id !== Number(req.user.id)) {
+    if (apartment.owner.id !== Number(user.id)) {
       throw new BadRequestException('You are not the owner of this apartment');
     }
 
