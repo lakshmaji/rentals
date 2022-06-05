@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+      "name": "Launch API",
+      "program": "${workspaceFolder}/apps/api/dist/main",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node",
+      "envFile": "${workspaceFolder}/apps/api/.env"
+    }
+  ]
+}
